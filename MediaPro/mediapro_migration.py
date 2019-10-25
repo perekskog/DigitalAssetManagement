@@ -1,14 +1,5 @@
 #!/usr/bin/env python3 
 
-
-# TODO
-#
-# v Date formatting: 2019-10-12 -> 191012 (eller 20191012?)
-# v Extension? Står inte i XMP-filen... Måste kolla extension på fil med samma basnamn...
-# v Create (if not exist already) and move files into subdirectories.
-# v Skip if there is no mediafile available except the XMP file.
-# - Replace unwanted characters from generated filename
-
 import argparse
 import json
 from pathlib import Path, PurePath
