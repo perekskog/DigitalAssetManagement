@@ -62,7 +62,7 @@ def get_props(sender_map, xmlfile):
 
     return (headline, datecreated, senders_text, senders_text_short, categories_text)
 
-def rename_file(basedir, file, headline, datecreated, senders_text_short, categories_text):
+def get_new_filename(basedir, file, headline, datecreated, senders_text_short, categories_text):
     categories = ""
     for cat in categories_text:
         categories += "({})".format(cat.lower())
@@ -73,10 +73,7 @@ def rename_file(basedir, file, headline, datecreated, senders_text_short, catego
     p = Path('{}/{}'.format(basedir, sender))
     p.mkdir(exist_ok=True)
     newfilename = "{}/{}/{}_{}_{} {}{}".format(basedir, sender, sender, date_formatted, headline, categories, file.suffix)
-
-    print("    rename {} -> {}".format(file, newfilename))
-    file.rename(newfilename)
-    return
+    return newfilename
 
 parser = argparse.ArgumentParser(description='Extract metadata from XMP files \n Extracts headline, datecreated, senders and categories. \n Errors (missing headline, missing datecreated, unmapped sender) re printed on sys.stderr')
 parser.add_argument("-r", "--rename-files", help="Rename files", action='store_const', const='rename_files')
@@ -90,11 +87,15 @@ rename_files = args.rename_files
 
 for file in files:
     props = get_props(senders, file)
-    print('{}:{}'.format(file, props))
-    if(rename_files):
-        (headline, datecreated, senders_text, senders_text_short, categories_text) = props
-        file_base = PurePath(file).stem
-        mediafile_all = Path(args.directory).glob('{}.*'.format(file_base))
-        mediafile_notxmp = [f for f in mediafile_all if not f.suffix == '.XMP']
-        if len(mediafile_notxmp) > 0:
-            rename_file(args.directory, mediafile_notxmp[0], headline, datecreated, senders_text_short, categories_text)
+    print('metadata: {}:{}'.format(file, props))
+    (headline, datecreated, senders_text, senders_text_short, categories_text) = props
+    file_base = PurePath(file).stem
+    mediafile_all = Path(args.directory).glob('{}.*'.format(file_base))
+    mediafile_notxmp = [f for f in mediafile_all if not f.suffix == '.XMP']
+    if len(mediafile_notxmp) > 0:
+        mediafile = mediafile_notxmp[0]
+        new_filename = get_new_filename(args.directory, mediafile, headline, datecreated, senders_text_short, categories_text)
+        print("-> rename {} -> {}".format(mediafile, new_filename))
+        if(rename_files):
+            mediafile.rename(new_filename)
+
