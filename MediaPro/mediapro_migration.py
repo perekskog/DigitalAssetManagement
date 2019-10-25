@@ -5,7 +5,9 @@
 #
 # v Date formatting: 2019-10-12 -> 191012 (eller 20191012?)
 # v Extension? Står inte i XMP-filen... Måste kolla extension på fil med samma basnamn...
-# - Create (if not exist already) and move files into subdirectories.
+# v Create (if not exist already) and move files into subdirectories.
+# v Skip if there is no mediafile available except the XMP file.
+# - Replace unwanted characters from generated filename
 
 import argparse
 import json
@@ -77,7 +79,6 @@ def rename_file(basedir, file, headline, datecreated, senders_text_short, catego
     date_formatted = datecreated.replace('-','')[2:]
 
     sender = senders_text_short[0]
-    #print('[{}]'.format(basedir))
     p = Path('{}/{}'.format(basedir, sender))
     p.mkdir(exist_ok=True)
     newfilename = "{}/{}/{}_{}_{} {}{}".format(basedir, sender, sender, date_formatted, headline, categories, file.suffix)
@@ -99,10 +100,10 @@ rename_files = args.rename_files
 for file in files:
     props = get_props(senders, file)
     print('{}:{}'.format(file, props))
-    ()
     if(rename_files):
         (headline, datecreated, senders_text, senders_text_short, categories_text) = props
         file_base = PurePath(file).stem
         mediafile_all = Path(args.directory).glob('{}.*'.format(file_base))
         mediafile_notxmp = [f for f in mediafile_all if not f.suffix == '.XMP']
-        rename_file(args.directory, mediafile_notxmp[0], headline, datecreated, senders_text_short, categories_text)
+        if len(mediafile_notxmp) > 0:
+            rename_file(args.directory, mediafile_notxmp[0], headline, datecreated, senders_text_short, categories_text)
