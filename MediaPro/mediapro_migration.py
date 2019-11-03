@@ -9,20 +9,39 @@ import xml.etree.ElementTree as ET
 
 default_headline = '(no headline)'
 default_datecreated = '1900-01-01'
-default_sender = 'Unmapped sender'
+default_sender = 'unmapped_sender'
 
 
 ns = {'rdf': 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
       'role': 'http://characters.example.com',
       'photoshop': 'http://ns.adobe.com/photoshop/1.0/',
       'dc': 'http://purl.org/dc/elements/1.1/',
-      'mediapro': 'http://ns.iview-multimedia.com/mediapro/1.0/'}
+      'mediapro': 'http://ns.iview-multimedia.com/mediapro/1.0/',
+      'lightroom':'http://ns.adobe.com/lightroom/1.0/'}
+
+def get_leaves(senders):
+    senders_text = [s.text for s in senders ]
+    senders_text.sort()
+    leaves = []
+    for i in range(1,len(senders_text)):
+        #print('Processing index {}={}'.format(i,senders_text[i]))
+        if(senders_text[i].find(senders_text[i-1]) != 0):
+            leaves.append(senders_text[i-1])        
+            #print('Added {}'.format(senders_text[i-1]))
+        #else:
+            #print('Skipped {}'.format(senders_text[i-1]))
+
+    leaves.append(senders_text[-1])
+    #print('Added last element {}'.format(senders_text[-1]))
+    return leaves
+
 
 def get_props(sender_map, xmlfile):
     tree = ET.parse(xmlfile)
 
     root = tree.getroot()
 
+    ######################
     # Headline
     nheadline = len(root.findall('./rdf:RDF/rdf:Description/photoshop:Headline',ns))
     headline = ''
@@ -39,6 +58,7 @@ def get_props(sender_map, xmlfile):
     else:
         headline = root.find('./rdf:RDF/rdf:Description/photoshop:Headline',ns).text
 
+    ################################
     # Date created
     ndatecreated = len(root.findall('./rdf:RDF/rdf:Description/photoshop:DateCreated',ns))
     datecreated = ''
@@ -55,37 +75,45 @@ def get_props(sender_map, xmlfile):
     else:
         datecreated = root.find('./rdf:RDF/rdf:Description/photoshop:DateCreated',ns).text
 
+
+    ############################
     # Sender
-    # Require either 1 (sender) or two, where first is top level sender (to disregard).
-    # No support for several senders.
+    # Extract all leafs
     sender_text = []
     sender_text_short = []
 
-    senders = root.findall('./rdf:RDF/rdf:Description/dc:subject/rdf:Bag/rdf:li',ns)
+#    senders = root.findall('./rdf:RDF/rdf:Description/dc:subject/rdf:Bag/rdf:li',ns)
+    senders = root.findall('./rdf:RDF/rdf:Description/lightroom:hierarchicalSubject/rdf:Bag/rdf:li',ns)
     nsenders = len(senders)
     if(nsenders==0):
         sys.stderr.write('{}: ERROR: Missing sender, replaced with {}\n'.format(xmlfile, default_sender))
         if(error_is_fatal):
             sys.exit(-1)
+        sender_text_short.append(default_sender)
     if(nsenders==1):
-        sender_text = senders[0].text
-    if(nsenders==2):
+        sender_text = [senders[0].text]
+        if(sender_text[0] in sender_map):
+            sender_text_short.append(sender_map[sender_text[0]])
+        else:
+            sys.stderr.write('{}: ERROR: Unmapped sender: {}, replaced with {}\n'.format(xmlfile, sender_text[0], default_sender))
+            if(error_is_fatal):
+                sys.exit(-1)
+            sender_text_short.append(default_sender)
+    if(nsenders>=2):
         # Prefix (Peer, ...) is in index 0
-        sender_text = senders[0].text
-    if(nsenders>2):
-        sys.stderr.write('{}: ERROR: Too many senders: {}, replaced with {}\n'.format(xmlfile, senders, default_sender))
-        if(error_is_fatal):
-            sys.exit(-1)
-        sender_text = default_sender
+        sender_text = get_leaves(senders)
 
-    if(sender_text in sender_map):
-        sender_text_short = sender_map[sender_text]
-    else:
-        sys.stderr.write('{}: ERROR: Unmapped sender: {}, replaced with {}\n'.format(xmlfile, sender_text, default_sender))
-        if(error_is_fatal):
-            sys.exit(-1)
-        sender_text_short = default_sender
+        for s in sender_text:
+            if(s in sender_map):
+                sender_text_short.append(sender_map[s])
+            else:
+                sys.stderr.write('{}: ERROR: Unmapped sender: {}, replaced with {}\n'.format(xmlfile, s, default_sender))
+                if(error_is_fatal):
+                    sys.exit(-1)
+                sender_text_short.append(default_sender)
 
+    ####################
+    # Categories
     categories = root.findall('./rdf:RDF/rdf:Description/mediapro:CatalogSets/rdf:Bag/rdf:li',ns)
     #print(categories)
 
