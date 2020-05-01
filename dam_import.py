@@ -50,17 +50,19 @@ def getOperation(device, subtype):
 
 parser = argparse.ArgumentParser(description='Change name of files based on device, filetype and EXIF data.')
 parser.add_argument("-p", help="Change name of files", action='store_true', dest='prod')
-parser.add_argument("-t", help="Change name of files", action='store_false', dest='prod')
+parser.add_argument("-t", help="Display name of files", action='store_false', dest='prod')
 parser.add_argument("--doit", help="Perform name change", action='store_true', dest='doit')
-parser.add_argument("--nodebug", help="Print debug messages", action='store_false', dest='debug')
-parser.add_argument("device", help="Device")
-parser.add_argument("subtype", help="Device")
+parser.add_argument("--nodebug", help="Hide debug messages", action='store_false', dest='debug')
+parser.add_argument("device", help="d7500, iphone-x")
+parser.add_argument("subtype", help="d7500(nef), iphone-x(jpeg.mov)")
 parser.add_argument("session", help="Session")
+parser.add_argument("path", help="Path")
 args = parser.parse_args()
 prod = args.prod
 device = args.device
 subtype = args.subtype
 session = args.session
+path = args.path
 doit = args.doit
 debug= args.debug
 if(debug):
@@ -81,7 +83,7 @@ else:
 if(debug):
     print("op={}".format(op))
 
-cmd = "exiftool -d %y%m%d '{}' -ext {} {}".format(op, extension, ".")
+cmd = "exiftool -d %y%m%d '{}' -ext {} {}".format(op, extension, path)
 if(debug):
     print("cmd={}".format(cmd))
 
