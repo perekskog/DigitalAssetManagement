@@ -37,6 +37,10 @@ def getExtension(device, subtype):
             extension = "jpg"
         if(subtype=="orf"):
             extension = "orf"
+    
+    if(device=="spark"):
+        if(subtype=="jpeg"):
+            extension = "jpg"
 
     return extension
 
@@ -56,6 +60,9 @@ def getOperation(device, subtype):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
         if(subtype=="orf"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
+    if(device=="spark"):
+        if(subtype=="jpeg"):
+            operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
     
     return operation
 
@@ -64,8 +71,8 @@ parser.add_argument("-p", help="Change name of files", action='store_true', dest
 parser.add_argument("-t", help="Display name of files", action='store_false', dest='prod')
 parser.add_argument("--doit", help="Perform name change", action='store_true', dest='doit')
 parser.add_argument("--nodebug", help="Hide debug messages", action='store_false', dest='debug')
-parser.add_argument("device", help="d7500, iphone-x, pen-f")
-parser.add_argument("subtype", help="d7500(nef), iphone-x(jpeg.mov), penf(jpeg,orf)")
+parser.add_argument("device", help="d7500, iphone-x, pen-f, spark")
+parser.add_argument("subtype", help="d7500(nef), iphone-x(jpeg.mov), penf(jpeg,orf), spark(jpeg)")
 parser.add_argument("session", help="Session")
 parser.add_argument("path", help="Path")
 args = parser.parse_args()
