@@ -23,24 +23,46 @@ def getExtension(device, subtype):
     extension = "unknown"
 
     if(device=="d7500"):
-        if(subtype=="nef"):
+        if(subtype=="raw"):
             extension = "nef"
+        if(subtype=="mov"):
+            extension = "mov"
 
-    if(device=="iphone-x"):
+    if(device=="iphonex"):
         if(subtype=="jpeg"):
             extension = "jpeg"
         if(subtype=="mov"):
             extension = "mov"
 
-    if(device=="pen-f"):
+    if(device=="penf"):
         if(subtype=="jpeg"):
             extension = "jpg"
-        if(subtype=="orf"):
+        if(subtype=="raw"):
             extension = "orf"
     
     if(device=="spark"):
         if(subtype=="jpeg"):
             extension = "jpg"
+        if(subtype=="mov"):
+            extension = "mp4"
+
+    if(device=="xa20"):
+        if(subtype=="mov"):
+            extension = "mp4"
+    
+    if(device=="app"):
+        if(subtype=="djigo-mov"):
+            extension = "mov"
+
+    if(device=="gopro"):
+        if(subtype=="mov"):
+            extension = "mp4"
+    
+    if(device=="osmo"):
+        if(subtype=="mov"):
+            extension = "mov"
+        if(subtype=="jpeg"):
+            extension = "jpeg"
 
     return extension
 
@@ -48,21 +70,37 @@ def getOperation(device, subtype):
     operation = "unknown"
 
     if(device=="d7500"):
-        if(subtype=="nef"):
+        if(subtype=="raw"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
-    if(device=="iphone-x"):
+        if(subtype=="mov"):
+            operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
+    if(device=="iphonex"):
         if(subtype=="jpeg"):
-            operation = "-_ENV_<Pe_${FileModifyDate}_TaO__SESSION__$filename"
+            operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
         if(subtype=="mov"):
             operation = "-_ENV_<Pe_${CreationDate}_TaO__SESSION__$filename"
-    if(device=="pen-f"):
+    if(device=="penf"):
         if(subtype=="jpeg"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
-        if(subtype=="orf"):
+        if(subtype=="raw"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
     if(device=="spark"):
         if(subtype=="jpeg"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
+        if(subtype=="mov"):
+            operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
+    if(device=="xa20"):
+        if(subtype=="mov"):
+            operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
+    if(device=="app"):
+        if(subtype=="djigo-mov"):
+            operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
+    if(device=="gopro"):
+        if(subtype=="mov"):
+            operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
+    if(device=="osmo"):
+        if(subtype=="mov"):
+            operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
     
     return operation
 
