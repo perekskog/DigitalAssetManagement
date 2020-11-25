@@ -30,7 +30,7 @@ def getExtension(device, subtype):
 
     if(device=="iphonex"):
         if(subtype=="jpeg"):
-            extension = "jpeg"
+            extension = "jpg"
         if(subtype=="mov"):
             extension = "mov"
 
