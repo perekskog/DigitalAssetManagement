@@ -50,6 +50,10 @@ def getExtension(device, subtype):
         if(subtype=="mov"):
             extension = "mp4"
     
+    if(device=="eufy"):
+        if(subtype=="mov"):
+            extension = "mp4"
+    
     if(device=="app"):
         if(subtype=="djigo-mov"):
             extension = "mov"
@@ -100,6 +104,9 @@ def getOperation(device, subtype):
     if(device=="xa20"):
         if(subtype=="mov"):
             operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
+    if(device=="eufy"):
+        if(subtype=="mov"):
+            operation = "-_ENV_<Pe_${FileModifyDate}_TaO__SESSION__$filename"
     if(device=="app"):
         if(subtype=="djigo-mov"):
             operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
