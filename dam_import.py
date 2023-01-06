@@ -101,7 +101,7 @@ def getOperation(device, subtype):
             operation = "-_ENV_<Pe_${CreationDate}_TaO__SESSION__$filename"
     if(device=="iphone13"):
         if(subtype=="heic"):
-            operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
+            operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
         if(subtype=="jpeg"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
         if(subtype=="mov"):
