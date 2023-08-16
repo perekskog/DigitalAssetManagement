@@ -41,6 +41,8 @@ def getExtension(device, subtype):
             extension = "jpg"
         if(subtype=="mov"):
             extension = "mov"
+        if(subtype=="png"):
+            extension = "png"
 
     if(device=="penf"):
         if(subtype=="jpeg"):
@@ -106,6 +108,8 @@ def getOperation(device, subtype):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
         if(subtype=="mov"):
             operation = "-_ENV_<Pe_${CreationDate}_TaO__SESSION__$filename"
+        if(subtype=="png"):
+            operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
     if(device=="penf"):
         if(subtype=="jpeg"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
