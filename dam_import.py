@@ -49,6 +49,8 @@ def getExtension(device, subtype):
             extension = "jpg"
         if(subtype=="raw"):
             extension = "orf"
+        if(subtype=="mov"):
+            extension = "mov"
     
     if(device=="spark"):
         if(subtype=="jpeg"):
@@ -115,6 +117,8 @@ def getOperation(device, subtype):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
         if(subtype=="raw"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
+        if(subtype=="mov"):
+            operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
     if(device=="spark"):
         if(subtype=="jpeg"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
