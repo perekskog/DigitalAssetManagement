@@ -88,6 +88,10 @@ def getExtension(device, subtype):
         if(subtype=="insv"):
             extension = "insv"
 
+    if(device=="nokia3210"):
+        if(subtype=="jpeg"):
+            extension = "jpg"
+
     return extension
 
 def getOperation(device, subtype):
@@ -146,6 +150,9 @@ def getOperation(device, subtype):
             operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
         if(subtype=="insv"):
             operation = "-_ENV_<Pe_${CreateDate}_TaO__SESSION__$filename"
+    if(device=="nokia3210"):
+        if(subtype=="jpeg"):
+            operation = "-_ENV_<Pe_${FileModifyDate}_TaO__SESSION__$filename"
 
     return operation
 
