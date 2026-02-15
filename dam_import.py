@@ -92,6 +92,16 @@ def getExtension(device, subtype):
         if(subtype=="jpeg"):
             extension = "jpg"
 
+    if(device=="ixus285"):
+        if(subtype=="jpeg"):
+            extension = "jpg"
+        if(subtype=="mov"):
+            extension = "mp4"
+
+    if(device=="samsungst50"):
+        if(subtype=="jpeg"):
+            extension = "jpg"
+
     return extension
 
 def getOperation(device, subtype):
@@ -153,7 +163,12 @@ def getOperation(device, subtype):
     if(device=="nokia3210"):
         if(subtype=="jpeg"):
             operation = "-_ENV_<Pe_${FileModifyDate}_TaO__SESSION__$filename"
-
+    if(device=="ixus285"):
+        if(subtype=="jpeg"):
+            operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
+    if(device=="samsungst50"):
+        if(subtype=="jpeg"):
+            operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
     return operation
 
 parser = argparse.ArgumentParser(description='Change name of files based on device, filetype and EXIF data.')
