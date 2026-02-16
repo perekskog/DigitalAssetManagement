@@ -166,6 +166,8 @@ def getOperation(device, subtype):
     if(device=="ixus285"):
         if(subtype=="jpeg"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
+        if(subtype=="mov"):
+            operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
     if(device=="samsungst50"):
         if(subtype=="jpeg"):
             operation = "-_ENV_<Pe_${DateTimeOriginal}_TaO__SESSION__$filename"
